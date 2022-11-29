@@ -1,0 +1,26 @@
+version: '2.3'
+
+x-lagoon-project:
+  &lagoon-project docker-test
+
+x-environment:
+  &default-environment
+    LAGOON_PROJECT: *lagoon-project
+    LAGOON_ROUTE: https://docker-test.docker.amazee.io
+
+services:
+
+  cli:
+    build:
+      context: .
+      dockerfile: .docker/cli.dockerfile
+    image: *lagoon-project
+    user: root
+    volumes_from: ### Local overrides to mount host SSH keys. Automatically removed in CI.
+      - container:amazeeio-ssh-agent ### Local overrides to mount host SSH keys. Automatically removed in CI.
+    environment:
+      << : *default-environment
+
+networks:
+  amazeeio-network:
+    external: true

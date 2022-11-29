@@ -1,0 +1,5 @@
+# Testing Docker
+
+    docker-compose up --force-recreate --build -d
+
+    docker-compose exec cli /app/test.sh
